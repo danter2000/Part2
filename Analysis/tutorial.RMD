@@ -1,0 +1,140 @@
+---
+title: "Project 3: NewPackageLecture9 Tutorial"
+author: "Dante Ramirez"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{NewPackageLecture9 Tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+# Loads packages and data frames from NewPackageLecture9
+library(NewPackageLecture9)
+library(dplyr)
+library(ggplot2)
+data("my_gapminder")
+data("my_penguins")
+```
+
+To view the vignette, run lines 26 and 27 in console, then follow the following
+comments from lines 34 and 36 in the Vignette Install code chunk.
+Package "NewPackageLecture9" imports six mathematical functions and two
+supplementary data sets to use in those functions. 
+
+```{r Vignette Install, eval = FALSE}
+
+# Package instal instructions
+devtools::install_github("danter2000/NewPackageLecture9", 
+                         build_vignette = TRUE, 
+                         build_opts = c())
+# Calls the package
+library(NewPackageLecture9)
+
+# Use this to view the vignette in the Demo HTML help
+help(package = "NewPackageLecture9", help_type = "html")
+# Use this to view the vignette as an isolated HTML file
+utils::browseVignettes(package = "NewPackageLecture9")
+
+```
+
+```{r load data}
+
+read_csv("../Data/my_gapminder.csv")
+
+source("../Code/my_rf_cv.R")
+
+```
+
+This code chunk uses random forest prediction on data from my_penguins.
+
+```{r k-random forest}
+
+# Intializes empty matrix with 90 rows and 2 columns
+cv_est_matr <- matrix(NA, nrow = 90, ncol = 2)
+
+# Initializes vector where 2 repeats 30 times, then 5, 30 times, etc
+evals <- rep(c(2,5,10), each = 30)
+
+# For the jth element in the vector from 1 to 90
+for (j in 1:90) {
+  
+  # The 1st column is the cv error for the jth element in the evals vector
+  cv_est_matr[j, 1] <- my_rf_cv(evals[j])$Error
+  
+  # The 2nd column is the eval vector value that corresponds to that cv error
+  cv_est_matr[j, 2] <- evals[j]
+  
+  }
+
+# Converts 90X2 matrix to data frame
+cv_est_frame <- as.data.frame(cv_est_matr)
+
+# Renames the first column of the data frame
+colnames(cv_est_frame)[1] <- "CV_error"
+
+# Renames the second column of the data frame
+colnames(cv_est_frame)[2] <- "Num_folds"
+
+# Creates 2X3 data frame with summary statistics grouped on eval vector value
+cv_est_frame_1 <- cv_est_frame %>% 
+                  group_by(Num_folds) %>% 
+                  summarise(cv_mean = mean(CV_error), 
+                            cv_sd = sd(CV_error))
+
+# Calls data frame
+cv_est_frame_1
+
+# Splits based on eval vector value
+cv_est_frame$Num_folds <- factor(cv_est_frame$Num_folds)
+
+# Makes plot from cv_est_frame data, groups on the x axis, cv error on y axis
+cv_err_plot <- ggplot(data = cv_est_frame, mapping = aes(x = Num_folds, 
+                                                         y = CV_error)) + 
+  
+  # creates three box plots
+  geom_boxplot() +
+  
+  # add labels
+  labs(title = "CV Error by number of folds",
+       x = "Number of folds",
+       y = "CV error") +
+  
+  # Centers and bolds title
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+cv_err_plot
+
+
+
+#read_csv() read data
+#source() read code
+#save/saveRDS
+#ggsave
+
+
+```
+
+It appears as the number of folds we have increases, then the grouped mean and 
+standard deviations for the MSE errors across all our folds decreases. We should
+expect this, because we are dividing our MSE error over more folds, making the 
+CV error lower as we increase the number of folds. This may indicate that the 
+best model for prediction may have a high value of k.
+
+Our boxplots show a trends that as the number of folds increases, then the CV 
+error decreases, and similarly, the IQR, range, and overall variance of the 
+boxes decreases substantially as well as k increases.
+
+```{r save}
+
+ggsave(cv_err_plot, "../Output/Figures/myplot.pdf")
+ggsave(cv_est_frame_1, "../Output/Figures/cv_est_frame_1.pdf")
+
+```
