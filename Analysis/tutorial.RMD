@@ -20,6 +20,7 @@ knitr::opts_chunk$set(
 library(NewPackageLecture9)
 library(dplyr)
 library(ggplot2)
+library(tidyverse)
 data("my_gapminder")
 data("my_penguins")
 ```
@@ -48,6 +49,8 @@ utils::browseVignettes(package = "NewPackageLecture9")
 ```{r load data}
 
 read_csv("../Data/my_gapminder.csv")
+
+read_csv("../Data/my_penguins.csv")
 
 source("../Code/my_rf_cv.R")
 
@@ -90,7 +93,9 @@ cv_est_frame_1 <- cv_est_frame %>%
                             cv_sd = sd(CV_error))
 
 # Calls data frame
-cv_est_frame_1
+cv_est_frame_2 <- as.table(as.matrix(cv_est_frame_1))
+
+cv_est_frame_2
 
 # Splits based on eval vector value
 cv_est_frame$Num_folds <- factor(cv_est_frame$Num_folds)
@@ -134,7 +139,10 @@ boxes decreases substantially as well as k increases.
 
 ```{r save}
 
-ggsave(cv_err_plot, "../Output/Figures/myplot.pdf")
-ggsave(cv_est_frame_1, "../Output/Figures/cv_est_frame_1.pdf")
+ggsave(plot = cv_err_plot, "../Output/Figures/cv_err_plot.pdf")
+
+saveRDS(cv_est_frame_2, "../Output/Results/cv_est_frame_2.rds")
+
+write_csv(cv_est_frame, "../Output/Results/cv_est_frame.csv")
 
 ```

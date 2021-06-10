@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Dante Ramirez" />
+
+
+<title>Project 3: NewPackageLecture9 Tutorial</title>
+
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Project 3: NewPackageLecture9 Tutorial</h1>
+<h4 class="author">Dante Ramirez</h4>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># Loads packages and data frames from NewPackageLecture9</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(NewPackageLecture9)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; Warning: package &#39;dplyr&#39; was built under R version 4.0.5</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt; </span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt; Attaching package: &#39;dplyr&#39;</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt; </span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt;     filter, lag</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="co">#&gt; </span></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#&gt; Warning: package &#39;ggplot2&#39; was built under R version 4.0.5</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="co">#&gt; Warning: package &#39;tidyverse&#39; was built under R version 4.0.5</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="co">#&gt; -- Attaching packages --------------------------------------- tidyverse 1.3.0 --</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a><span class="co">#&gt; v tibble  3.1.0     v purrr   0.3.4</span></span>
+<span id="cb1-19"><a href="#cb1-19"></a><span class="co">#&gt; v tidyr   1.1.3     v stringr 1.4.0</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a><span class="co">#&gt; v readr   1.4.0     v forcats 0.5.1</span></span>
+<span id="cb1-21"><a href="#cb1-21"></a><span class="co">#&gt; Warning: package &#39;tibble&#39; was built under R version 4.0.4</span></span>
+<span id="cb1-22"><a href="#cb1-22"></a><span class="co">#&gt; Warning: package &#39;tidyr&#39; was built under R version 4.0.5</span></span>
+<span id="cb1-23"><a href="#cb1-23"></a><span class="co">#&gt; Warning: package &#39;readr&#39; was built under R version 4.0.5</span></span>
+<span id="cb1-24"><a href="#cb1-24"></a><span class="co">#&gt; Warning: package &#39;purrr&#39; was built under R version 4.0.5</span></span>
+<span id="cb1-25"><a href="#cb1-25"></a><span class="co">#&gt; Warning: package &#39;stringr&#39; was built under R version 4.0.4</span></span>
+<span id="cb1-26"><a href="#cb1-26"></a><span class="co">#&gt; Warning: package &#39;forcats&#39; was built under R version 4.0.5</span></span>
+<span id="cb1-27"><a href="#cb1-27"></a><span class="co">#&gt; -- Conflicts ------------------------------------------ tidyverse_conflicts() --</span></span>
+<span id="cb1-28"><a href="#cb1-28"></a><span class="co">#&gt; x dplyr::filter() masks stats::filter()</span></span>
+<span id="cb1-29"><a href="#cb1-29"></a><span class="co">#&gt; x dplyr::lag()    masks stats::lag()</span></span>
+<span id="cb1-30"><a href="#cb1-30"></a><span class="kw">data</span>(<span class="st">&quot;my_gapminder&quot;</span>)</span>
+<span id="cb1-31"><a href="#cb1-31"></a><span class="kw">data</span>(<span class="st">&quot;my_penguins&quot;</span>)</span></code></pre></div>
+<p>To view the vignette, run lines 26 and 27 in console, then follow the following comments from lines 34 and 36 in the Vignette Install code chunk. Package “NewPackageLecture9” imports six mathematical functions and two supplementary data sets to use in those functions.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="co"># Package instal instructions</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;danter2000/NewPackageLecture9&quot;</span>, </span>
+<span id="cb2-4"><a href="#cb2-4"></a>                         <span class="dt">build_vignette =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb2-5"><a href="#cb2-5"></a>                         <span class="dt">build_opts =</span> <span class="kw">c</span>())</span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="co"># Calls the package</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="kw">library</span>(NewPackageLecture9)</span>
+<span id="cb2-8"><a href="#cb2-8"></a></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co"># Use this to view the vignette in the Demo HTML help</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="kw">help</span>(<span class="dt">package =</span> <span class="st">&quot;NewPackageLecture9&quot;</span>, <span class="dt">help_type =</span> <span class="st">&quot;html&quot;</span>)</span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="co"># Use this to view the vignette as an isolated HTML file</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a>utils<span class="op">::</span><span class="kw">browseVignettes</span>(<span class="dt">package =</span> <span class="st">&quot;NewPackageLecture9&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">read_csv</span>(<span class="st">&quot;../Data/my_gapminder.csv&quot;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt; </span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; -- Column specification --------------------------------------------------------</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt; cols(</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt;   country = col_character(),</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#&gt;   continent = col_character(),</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt;   year = col_double(),</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt;   lifeExp = col_double(),</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt;   pop = col_double(),</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt;   gdpPercap = col_double()</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt; )</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="co">#&gt; # A tibble: 1,704 x 6</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="co">#&gt;    country     continent  year lifeExp      pop gdpPercap</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a><span class="co">#&gt;    &lt;chr&gt;       &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a><span class="co">#&gt;  1 Afghanistan Asia       1952    28.8  8425333      779.</span></span>
+<span id="cb3-17"><a href="#cb3-17"></a><span class="co">#&gt;  2 Afghanistan Asia       1957    30.3  9240934      821.</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="co">#&gt;  3 Afghanistan Asia       1962    32.0 10267083      853.</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a><span class="co">#&gt;  4 Afghanistan Asia       1967    34.0 11537966      836.</span></span>
+<span id="cb3-20"><a href="#cb3-20"></a><span class="co">#&gt;  5 Afghanistan Asia       1972    36.1 13079460      740.</span></span>
+<span id="cb3-21"><a href="#cb3-21"></a><span class="co">#&gt;  6 Afghanistan Asia       1977    38.4 14880372      786.</span></span>
+<span id="cb3-22"><a href="#cb3-22"></a><span class="co">#&gt;  7 Afghanistan Asia       1982    39.9 12881816      978.</span></span>
+<span id="cb3-23"><a href="#cb3-23"></a><span class="co">#&gt;  8 Afghanistan Asia       1987    40.8 13867957      852.</span></span>
+<span id="cb3-24"><a href="#cb3-24"></a><span class="co">#&gt;  9 Afghanistan Asia       1992    41.7 16317921      649.</span></span>
+<span id="cb3-25"><a href="#cb3-25"></a><span class="co">#&gt; 10 Afghanistan Asia       1997    41.8 22227415      635.</span></span>
+<span id="cb3-26"><a href="#cb3-26"></a><span class="co">#&gt; # ... with 1,694 more rows</span></span>
+<span id="cb3-27"><a href="#cb3-27"></a></span>
+<span id="cb3-28"><a href="#cb3-28"></a><span class="kw">read_csv</span>(<span class="st">&quot;../Data/my_penguins.csv&quot;</span>)</span>
+<span id="cb3-29"><a href="#cb3-29"></a><span class="co">#&gt; </span></span>
+<span id="cb3-30"><a href="#cb3-30"></a><span class="co">#&gt; -- Column specification --------------------------------------------------------</span></span>
+<span id="cb3-31"><a href="#cb3-31"></a><span class="co">#&gt; cols(</span></span>
+<span id="cb3-32"><a href="#cb3-32"></a><span class="co">#&gt;   species = col_character(),</span></span>
+<span id="cb3-33"><a href="#cb3-33"></a><span class="co">#&gt;   island = col_character(),</span></span>
+<span id="cb3-34"><a href="#cb3-34"></a><span class="co">#&gt;   bill_length_mm = col_double(),</span></span>
+<span id="cb3-35"><a href="#cb3-35"></a><span class="co">#&gt;   bill_depth_mm = col_double(),</span></span>
+<span id="cb3-36"><a href="#cb3-36"></a><span class="co">#&gt;   flipper_length_mm = col_double(),</span></span>
+<span id="cb3-37"><a href="#cb3-37"></a><span class="co">#&gt;   body_mass_g = col_double(),</span></span>
+<span id="cb3-38"><a href="#cb3-38"></a><span class="co">#&gt;   sex = col_character(),</span></span>
+<span id="cb3-39"><a href="#cb3-39"></a><span class="co">#&gt;   year = col_double()</span></span>
+<span id="cb3-40"><a href="#cb3-40"></a><span class="co">#&gt; )</span></span>
+<span id="cb3-41"><a href="#cb3-41"></a><span class="co">#&gt; # A tibble: 344 x 8</span></span>
+<span id="cb3-42"><a href="#cb3-42"></a><span class="co">#&gt;    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g</span></span>
+<span id="cb3-43"><a href="#cb3-43"></a><span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;</span></span>
+<span id="cb3-44"><a href="#cb3-44"></a><span class="co">#&gt;  1 Adelie  Torgersen           39.1          18.7               181        3750</span></span>
+<span id="cb3-45"><a href="#cb3-45"></a><span class="co">#&gt;  2 Adelie  Torgersen           39.5          17.4               186        3800</span></span>
+<span id="cb3-46"><a href="#cb3-46"></a><span class="co">#&gt;  3 Adelie  Torgersen           40.3          18                 195        3250</span></span>
+<span id="cb3-47"><a href="#cb3-47"></a><span class="co">#&gt;  4 Adelie  Torgersen           NA            NA                  NA          NA</span></span>
+<span id="cb3-48"><a href="#cb3-48"></a><span class="co">#&gt;  5 Adelie  Torgersen           36.7          19.3               193        3450</span></span>
+<span id="cb3-49"><a href="#cb3-49"></a><span class="co">#&gt;  6 Adelie  Torgersen           39.3          20.6               190        3650</span></span>
+<span id="cb3-50"><a href="#cb3-50"></a><span class="co">#&gt;  7 Adelie  Torgersen           38.9          17.8               181        3625</span></span>
+<span id="cb3-51"><a href="#cb3-51"></a><span class="co">#&gt;  8 Adelie  Torgersen           39.2          19.6               195        4675</span></span>
+<span id="cb3-52"><a href="#cb3-52"></a><span class="co">#&gt;  9 Adelie  Torgersen           34.1          18.1               193        3475</span></span>
+<span id="cb3-53"><a href="#cb3-53"></a><span class="co">#&gt; 10 Adelie  Torgersen           42            20.2               190        4250</span></span>
+<span id="cb3-54"><a href="#cb3-54"></a><span class="co">#&gt; # ... with 334 more rows, and 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</span></span>
+<span id="cb3-55"><a href="#cb3-55"></a></span>
+<span id="cb3-56"><a href="#cb3-56"></a><span class="kw">source</span>(<span class="st">&quot;../Code/my_rf_cv.R&quot;</span>)</span></code></pre></div>
+<p>This code chunk uses random forest prediction on data from my_penguins.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="co"># Intializes empty matrix with 90 rows and 2 columns</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>cv_est_matr &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow =</span> <span class="dv">90</span>, <span class="dt">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb4-4"><a href="#cb4-4"></a></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co"># Initializes vector where 2 repeats 30 times, then 5, 30 times, etc</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a>evals &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">10</span>), <span class="dt">each =</span> <span class="dv">30</span>)</span>
+<span id="cb4-7"><a href="#cb4-7"></a></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co"># For the jth element in the vector from 1 to 90</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">90</span>) {</span>
+<span id="cb4-10"><a href="#cb4-10"></a>  </span>
+<span id="cb4-11"><a href="#cb4-11"></a>  <span class="co"># The 1st column is the cv error for the jth element in the evals vector</span></span>
+<span id="cb4-12"><a href="#cb4-12"></a>  cv_est_matr[j, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">my_rf_cv</span>(evals[j])<span class="op">$</span>Error</span>
+<span id="cb4-13"><a href="#cb4-13"></a>  </span>
+<span id="cb4-14"><a href="#cb4-14"></a>  <span class="co"># The 2nd column is the eval vector value that corresponds to that cv error</span></span>
+<span id="cb4-15"><a href="#cb4-15"></a>  cv_est_matr[j, <span class="dv">2</span>] &lt;-<span class="st"> </span>evals[j]</span>
+<span id="cb4-16"><a href="#cb4-16"></a>  </span>
+<span id="cb4-17"><a href="#cb4-17"></a>  }</span>
+<span id="cb4-18"><a href="#cb4-18"></a></span>
+<span id="cb4-19"><a href="#cb4-19"></a><span class="co"># Converts 90X2 matrix to data frame</span></span>
+<span id="cb4-20"><a href="#cb4-20"></a>cv_est_frame &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(cv_est_matr)</span>
+<span id="cb4-21"><a href="#cb4-21"></a></span>
+<span id="cb4-22"><a href="#cb4-22"></a><span class="co"># Renames the first column of the data frame</span></span>
+<span id="cb4-23"><a href="#cb4-23"></a><span class="kw">colnames</span>(cv_est_frame)[<span class="dv">1</span>] &lt;-<span class="st"> &quot;CV_error&quot;</span></span>
+<span id="cb4-24"><a href="#cb4-24"></a></span>
+<span id="cb4-25"><a href="#cb4-25"></a><span class="co"># Renames the second column of the data frame</span></span>
+<span id="cb4-26"><a href="#cb4-26"></a><span class="kw">colnames</span>(cv_est_frame)[<span class="dv">2</span>] &lt;-<span class="st"> &quot;Num_folds&quot;</span></span>
+<span id="cb4-27"><a href="#cb4-27"></a></span>
+<span id="cb4-28"><a href="#cb4-28"></a><span class="co"># Creates 2X3 data frame with summary statistics grouped on eval vector value</span></span>
+<span id="cb4-29"><a href="#cb4-29"></a>cv_est_frame_<span class="dv">1</span> &lt;-<span class="st"> </span>cv_est_frame <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb4-30"><a href="#cb4-30"></a><span class="st">                  </span><span class="kw">group_by</span>(Num_folds) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb4-31"><a href="#cb4-31"></a><span class="st">                  </span><span class="kw">summarise</span>(<span class="dt">cv_mean =</span> <span class="kw">mean</span>(CV_error), </span>
+<span id="cb4-32"><a href="#cb4-32"></a>                            <span class="dt">cv_sd =</span> <span class="kw">sd</span>(CV_error))</span>
+<span id="cb4-33"><a href="#cb4-33"></a></span>
+<span id="cb4-34"><a href="#cb4-34"></a><span class="co"># Calls data frame</span></span>
+<span id="cb4-35"><a href="#cb4-35"></a>cv_est_frame_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">as.table</span>(<span class="kw">as.matrix</span>(cv_est_frame_<span class="dv">1</span>))</span>
+<span id="cb4-36"><a href="#cb4-36"></a></span>
+<span id="cb4-37"><a href="#cb4-37"></a>cv_est_frame_<span class="dv">2</span></span>
+<span id="cb4-38"><a href="#cb4-38"></a><span class="co">#&gt;    Num_folds    cv_mean      cv_sd</span></span>
+<span id="cb4-39"><a href="#cb4-39"></a><span class="co">#&gt; A      2.000 124732.282   5549.015</span></span>
+<span id="cb4-40"><a href="#cb4-40"></a><span class="co">#&gt; B      5.000 120089.991   3755.457</span></span>
+<span id="cb4-41"><a href="#cb4-41"></a><span class="co">#&gt; C     10.000 119035.403   3092.950</span></span>
+<span id="cb4-42"><a href="#cb4-42"></a></span>
+<span id="cb4-43"><a href="#cb4-43"></a><span class="co"># Splits based on eval vector value</span></span>
+<span id="cb4-44"><a href="#cb4-44"></a>cv_est_frame<span class="op">$</span>Num_folds &lt;-<span class="st"> </span><span class="kw">factor</span>(cv_est_frame<span class="op">$</span>Num_folds)</span>
+<span id="cb4-45"><a href="#cb4-45"></a></span>
+<span id="cb4-46"><a href="#cb4-46"></a><span class="co"># Makes plot from cv_est_frame data, groups on the x axis, cv error on y axis</span></span>
+<span id="cb4-47"><a href="#cb4-47"></a>cv_err_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> cv_est_frame, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> Num_folds, </span>
+<span id="cb4-48"><a href="#cb4-48"></a>                                                         <span class="dt">y =</span> CV_error)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb4-49"><a href="#cb4-49"></a><span class="st">  </span></span>
+<span id="cb4-50"><a href="#cb4-50"></a><span class="st">  </span><span class="co"># creates three box plots</span></span>
+<span id="cb4-51"><a href="#cb4-51"></a><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></span>
+<span id="cb4-52"><a href="#cb4-52"></a><span class="st">  </span></span>
+<span id="cb4-53"><a href="#cb4-53"></a><span class="st">  </span><span class="co"># add labels</span></span>
+<span id="cb4-54"><a href="#cb4-54"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;CV Error by number of folds&quot;</span>,</span>
+<span id="cb4-55"><a href="#cb4-55"></a>       <span class="dt">x =</span> <span class="st">&quot;Number of folds&quot;</span>,</span>
+<span id="cb4-56"><a href="#cb4-56"></a>       <span class="dt">y =</span> <span class="st">&quot;CV error&quot;</span>) <span class="op">+</span></span>
+<span id="cb4-57"><a href="#cb4-57"></a><span class="st">  </span></span>
+<span id="cb4-58"><a href="#cb4-58"></a><span class="st">  </span><span class="co"># Centers and bolds title</span></span>
+<span id="cb4-59"><a href="#cb4-59"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>, <span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb4-60"><a href="#cb4-60"></a></span>
+<span id="cb4-61"><a href="#cb4-61"></a>cv_err_plot</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a></span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#read_csv() read data</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co">#source() read code</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="co">#save/saveRDS</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="co">#ggsave</span></span></code></pre></div>
+<p>It appears as the number of folds we have increases, then the grouped mean and standard deviations for the MSE errors across all our folds decreases. We should expect this, because we are dividing our MSE error over more folds, making the CV error lower as we increase the number of folds. This may indicate that the best model for prediction may have a high value of k.</p>
+<p>Our boxplots show a trends that as the number of folds increases, then the CV error decreases, and similarly, the IQR, range, and overall variance of the boxes decreases substantially as well as k increases.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">ggsave</span>(<span class="dt">plot =</span> cv_err_plot, <span class="st">&quot;../Output/Figures/cv_err_plot.pdf&quot;</span>)</span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="co">#&gt; Saving 3 x 3 in image</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="kw">saveRDS</span>(cv_est_frame_<span class="dv">2</span>, <span class="st">&quot;../Output/Results/cv_est_frame_2.rds&quot;</span>)</span>
+<span id="cb6-6"><a href="#cb6-6"></a></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="kw">write_csv</span>(cv_est_frame, <span class="st">&quot;../Output/Results/cv_est_frame.csv&quot;</span>)</span></code></pre></div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
