@@ -5,14 +5,12 @@
 [![R-CMD-check](https://github.com/danter2000/Part2/workflows/R-CMD-check/badge.svg)](https://github.com/danter2000/Part2/actions)
 <!-- badges: end -->
 
-The goal of Part2 is to ...
-
 ## Installation
 
 You can install the released version of Part2 from github with:
 
 ``` r
-devtools::Iinstall_gitbhub("danter2000/Part2")
+devtools::install_gitbhub("danter2000/Part2")
 ```
 
 ## Example
