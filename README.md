@@ -10,7 +10,7 @@
 You can install the released version of Part2 from github with:
 
 ``` r
-devtools::install_gitbhub("danter2000/Part2")
+devtools::install_github("danter2000/Part2")
 ```
 
 ## Example
